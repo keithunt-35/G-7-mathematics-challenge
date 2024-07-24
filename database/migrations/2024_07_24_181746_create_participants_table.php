@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('_answers', function (Blueprint $table) {
-            $table->integer('answerId')->primary();
-            $table->integer('questionId')->unsigned();
-            $table->foreign('questionid')->references('questionId')->on('_questions');
-            $table->string('text');
-            $table->boolean('isCorrect');
+        Schema::create('participants', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_answers');
+        Schema::dropIfExists('participants');
     }
 };
