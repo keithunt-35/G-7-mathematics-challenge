@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('_challenges', function (Blueprint $table) {            
             $table->timestamps();
             $table->integer('challengeId')->primary();
-            $table->integer('duration');
-            $table->string('name');
-            $table->date('startDate');
-            $table->date('endDate');
-            $table->integer('noOfQuestions');
+            $table->integer('duration')->nullable(false);
+            $table->string('name',25)->nullable(false);
+            $table->date('startDate')->nullable(false);
+            $table->date('endDate')->nullable(false);
+            $table->integer('noOfQuestions')->nullable(false);
         });
     }
 
