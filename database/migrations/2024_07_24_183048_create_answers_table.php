@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('questionId')->unsigned();
             $table->foreign('questionid')->references('questionId')->on('_questions')->onDelete('cascade');
             $table->string('text');
-            $table->boolean('isCorrect');
+            $table->boolean('is_Correct');
           
         });
     }
