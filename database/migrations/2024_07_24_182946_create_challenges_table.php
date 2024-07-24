@@ -13,9 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('challenges', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('_challenges', function (Blueprint $table) {            
+            
+            $table->integer('challengeId')->primary();
+            $table->integer('duration')->nullable(false);
+            $table->string('name',25)->nullable(false);
+            $table->date('startDate')->nullable(false);
+            $table->date('endDate')->nullable(false);
+            $table->integer('noOfQuestions')->nullable(false);
         });
     }
 
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('challenges');
+        Schema::dropIfExists('_challenges');
     }
 };
