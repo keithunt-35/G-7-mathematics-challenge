@@ -14,8 +14,18 @@ return new class extends Migration
     public function up()
     {
         Schema::create('participants', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+           
+           $table->bigIncrements('id');
+            $table->date('date_of_birth');
+            $table->string('email', 30);
+            $table->string('first_name', 12);
+            $table->string('last_name', 12);
+            $table->string('username', 15);
+            $table->string('password', 10);
+            $table->bigInteger('school_id')->unsigned();
+            
+            $table->foreign('school_id')->references('schoolId')->on('schools')->onDelete('cascade');
+        
         });
     }
 
