@@ -7,10 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
-    protected $fillable = ['question_id', 'answerId', 'is_correct', 'text'];
+      protected $fillable = [
+        'question_id',
+        'answerId', 
+        'is_correct', 
+        'text'
+    ];
 
-    public function question()
+
+public function question()
 {
-    return $this->belongsTo(Question::class, 'questionId');
+    return $this->belongsTo('App\Models\Question');
 }
+
+public function participant()
+{
+    return $this->belongsTo('App\Models\Participant');
+}
+
+
 }
