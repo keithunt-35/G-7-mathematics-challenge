@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('name');
             $table->string('representativeName');
-            $table->string('registration_number');
+            $table->string('registrationNo');
             $table->integer('schoolId')->primary();
         });
     }
