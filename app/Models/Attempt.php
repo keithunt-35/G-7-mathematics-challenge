@@ -7,5 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attempt extends Model
 {
-    use HasFactory;
+    
+    protected $fillable = [
+        'attemptId',
+        'participantId',
+        'challengeId',
+        'score',
+        'timeTaken'
+    ];
+
+    public function participant()
+    {
+        return $this->belongsTo('App\Models\Participant');
+    }
+
+    public function challenge()
+    {
+        return $this->belongsTo('App\Models\Challenge');
+    }
 }
