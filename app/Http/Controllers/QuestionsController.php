@@ -8,36 +8,51 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Challenge;
 use App\Models\Question;
 use App\Models\Answer;
+use Illuminate\Support\Facades\Log;
+
 use App\Imports\QuestionsImport;
 use App\Imports\AnswersImport;
-use Illuminate\Support\Facades\Log;
 
 class QuestionsController extends Controller
 {
     public function uploadQuestions(Request $request)
 {
-    $this->validate($request, [
-        'questions_file'=> 'required|mimes:xlsx',
-        'answers_file'=> 'required|mimes:xlsx',
+    $request->validate([
+        'questions_file'=> 'required|mimes:xlsx,xls',
+        'answers_file'=> 'required|mimes:xlsx,xls',
     ]);
 
-    $questionsFile = $request->file('questions_file');
-    $answersFile = $request->file('answers_file');
+    $questions = $request->file('questions_file');
+    $answers = $request->file('answers_file');
+    
+    $challenge = Challenge::create(['name' => 'New Challenge']);  
+    
+    DB::beginTransaction();
 
-    $_challenge = Challenge::create(['name' => 'New Challenge']);     
+    try{
+        Excel::import(new QuestionsImport, $questions);
 
-    Excel::import(new QuestionsImport($_challenge), $questionsFile->getPathname());
+        Excel::import(new AnswersImport, $answers);
 
-    $questions = $_challenge->questions;
+        DB::commit();
 
-    foreach ($questions as $question) {
-        Excel::import(new AnswersImport($question), $answersFile->getPathname());
+        $questionCount = Question::count();
+        $answersCount = Answer::count();
+
+        Log::info("After import:{$questionCount}questions and {$answersCount}answers in database");
+        
+        return back()->with('success', 'Questions and Answers uploaded successfully.');        
+        
+    }catch(\Exception $e){
+        DB::rollback();
+        Log::error('Import failed:'. $e->getMessage());
+        return back()->withErrors(['msg'=>'Upload failed']);
     }
-
- 
-
-    return redirect()->route('challenges.create')->with('success', 'Questions and answers uploaded successfully!');
 }
-}
+}   
+    
+
+
+
     
     

@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('schools', function (Blueprint $table) {            
+        Schema::create('representatives', function (Blueprint $table) {
             $table->timestamps();
-            $table->string('district');
-            $table->string('email');
-            $table->string('name');
             $table->string('representativeName');
-            $table->string('registration_number');
-            $table->integer('schoolId')->primary();
+            $table->integer('representativeid')->primary();
+            $table->string('email');            
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schools');
+        Schema::dropIfExists('_representatives');
     }
 };

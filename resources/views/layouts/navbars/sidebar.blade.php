@@ -58,10 +58,22 @@ Tip 2: you can also add an image using data-image tag
                                 <p>{{ __("Schools") }}</p>
                             </a>
                         </li>
+                        <li class="nav-item @if($activePage == 'Participants') active @endif">
+                            <a class="nav-link" href="{{route('participants.display')}}">
+                                <i class="nc-icon nc-satisfied"></i>
+                                <p>{{ __("Participants") }}</p>
+                            </a>
+                        </li>
                         <li class="nav-item @if($activePage == 'Representatives') active @endif">
                             <a class="nav-link" href="{{route('representatives.create')}}">
                                 <i class="nc-icon nc-satisfied"></i>
                                 <p>{{ __("Representatives") }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item @if($activePage == 'Analytics') active @endif">
+                            <a class="nav-link" href="{{route('representatives.create')}}">
+                                <i class="nc-icon nc-satisfied"></i>
+                                <p>{{ __("Analytics") }}</p>
                             </a>
                         </li>
             <li class="nav-item @if($activePage == 'typography') active @endif">

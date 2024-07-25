@@ -23,6 +23,8 @@
             <br>
             <label for="noOfQuestions">Number Of Questions:</label>
             <input type="integer" name="noOfQuestions" id="noOfQuestions" required>
+            <br>
+            <button type="submit">Upload Challenge</button>
 
 
             <!--<div class="row">

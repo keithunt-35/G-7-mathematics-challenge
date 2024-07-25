@@ -5,17 +5,16 @@ namespace App\Imports;
 use App\Models\Question;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use App\Models\Challenge;
 use Illuminate\Support\Facades\Log;
 
 class QuestionsImport implements ToModel, WithHeadingRow
 {
-    private $challenge;
+    //private $challenge;
 
-    public function __construct(Challenge $challenge)
-    {
-        $this->challenge = $challenge;
-    }
+    //public function __construct(Challenge $challenge)
+    //{
+        //$this->challenge = $challenge;
+    //}
 
     /**
     * @param array $row
@@ -24,12 +23,14 @@ class QuestionsImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        Log::info('Processing row in Questions Import: ', $row);
-        return Question::create([
-            'question_text' => $row['question_text'],
+        Log::info('Processing row in Questions Import:', $row);
+        return new Question([
+            'challengeId' => $row['challengeId'],
             'marks' => $row['marks'],
-            'challenge_id' => $this->challenge->id,
+            'questionId' =>$row['questionId'],
+            'questionText' => $row['questionText'],
         ]);
+        
         //$question->save(); // Save the question to the database
     //return $question;
     }

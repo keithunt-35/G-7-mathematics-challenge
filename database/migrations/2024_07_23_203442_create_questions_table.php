@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('representatives', function (Blueprint $table) {            
+        Schema::create('questions', function (Blueprint $table) {            
+            $table->unsignedInteger('challengeId');
+            $table->foreign('challengeId')->references('challengeId')->on('challenges');
+            $table->integer('marks');
+            $table->unsignedInteger('questionId')->primary();
+            $table->string('questionText');            
             $table->timestamps();
-            $table->string('representativeName');
-            $table->integer('representativeid')->primary();
-            $table->string('email');
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('representatives');
+        Schema::dropIfExists('questions');
     }
 };

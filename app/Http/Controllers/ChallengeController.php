@@ -14,15 +14,15 @@ class ChallengeController extends Controller
     }
     public function store(Request $request)
     {
-        $_challenges = new Challenge();
-    $_challenges->challengeId = $request->input('challengeId');
-    $_challenges->duration = $request->input('duration');
-    $_challenges->name = $request->input('name');
-    $_challenges->startDate = $request->input('startDate');
-    $_challenges->endDate =$request->input('endDate');
-    $_challenges->noOfQuestions =$request->input('noOfQuestions');
+        $challenges = new Challenge();
+    $challenges->challengeId = $request->input('challengeId');
+    $challenges->duration = $request->input('duration');
+    $challenges->name = $request->input('name');
+    $challenges->startDate = $request->input('startDate');
+    $challenges->endDate =$request->input('endDate');
+    $challenges->noOfQuestions =$request->input('noOfQuestions');
 
-    $_challenges->save();
+    $challenges->save();
 
         //Challenge::create($request->all());
         return redirect()->route('challenges.create')->with('success', 'Challenge added successfully!');    

@@ -35,9 +35,9 @@ class RepresentativeController extends Controller
     {
         $representatives = Representative::all();
 
-        //if($representatives->isEmpty()) {
-            //dd('No Representatives');
-        
-        return view ('representatives', ['representatives' => $representatives]);
+        if($representatives->isEmpty()) {
+            dd('No Representatives');
+        }
+        return view ('representatives', compact('representatives'));
     }
 }

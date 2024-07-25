@@ -6,6 +6,7 @@ use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\RepresentativeController;
 use App\Http\Controllers\ChallengeController;
+use App\Http\Controllers\ParticipantsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,10 @@ Route::get('upload', function(){
 	return view('upload');
 });
 
+Route::get('/Analytics', function () {
+    return view('Analytics');
+});
+
 //Route::post('upload', [App\Http\Controllers\ExcelController::class, 'import'])->name('upload');
 //Route::post('/upload', 'UploadController@upload')->name('upload');
 
@@ -44,11 +49,14 @@ Route::get('/representatives', [App\Http\Controllers\RepresentativeController::c
 
 Route::get('challenges/create', [App\Http\Controllers\ChallengeController::class, 'create'])->name('challenges.create');
 Route::post('/challenges', [App\Http\Controllers\ChallengeController::class, 'store'])->name('challenges.store');
+//Route::post('challenges/upload-questions', [App\Http\Controllers\QuestionsController::class, 'uploadQuestions'])->name('upload.questions');
+
+Route::get('/participants', [App\Http\Controllers\ParticipantsController::class, 'displayParticipantDetails'])->name('participants.display');
 
 //Route::post('/import', 'ExcelController@import')->name('upload.questions');
 
 //Route::post('/challenges', 'QuestionsController@uploadQuestions')->name('upload.questions');
-Route::post('/upload-questions', [App\Http\Controllers\QuestionsController::class, 'uploadQuestions'])->name('upload.questions');
+Route::post('challenges/upload-questions', [App\Http\Controllers\QuestionsController::class, 'uploadQuestions'])->name('upload.questions');
 
 Auth::routes();
 

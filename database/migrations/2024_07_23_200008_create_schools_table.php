@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('_challenges', function (Blueprint $table) {            
-            $table->timestamps();
-            $table->integer('challengeId')->primary();
-            $table->integer('duration');
+        Schema::create('schools', function (Blueprint $table) {            
+            $table->string('district');
+            $table->string('email');
             $table->string('name');
-            $table->date('startDate');
-            $table->date('endDate');
-            $table->integer('noOfQuestions');
+            $table->string('representativeName');
+            $table->string('registration_number');            
+            $table->unsignedInteger('schoolId')->primary();            
+            $table->timestamps();            
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_challenges');
+        Schema::dropIfExists('schools');
     }
 };
