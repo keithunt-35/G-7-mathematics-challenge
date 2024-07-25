@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    //protected $table = '_questions';
-    protected $fillable = ['id', 'question_text', 'marks', 'challengeId'];
+        //protected $table = '_questions';
+    protected $fillable = [
+        'id', 
+        'questionText', 
+        'marks', 
+        'challengeId'
+    ];
 
     public function challenge()
 {
@@ -17,7 +22,9 @@ class Question extends Model
 
 public function answers()
 {
-    return $this->hasMany(Answer::class, 'question_id');
+    return $this->hasMany(Answer::class, 'questionId');
 }
+
+
 
 }
