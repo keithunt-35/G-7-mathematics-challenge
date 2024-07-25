@@ -14,8 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('verified_participant', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+             $table->integer('chances')->nullable(false); // Not Null
+            $table->integer('remainingQuestions')->nullable(false); // Not Null
+            $table->time('remainingTime')->nullable(false); // Not Null
+            $table->integer('participantId')->unsigned(); // Foreign Key
+
+            // Foreign Key constraint
+            $table->foreign('participantId')->references('id')->on('participants')->onDelete('cascade');
+
+            
         });
     }
 
