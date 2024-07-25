@@ -34,6 +34,8 @@ Route::get('/Analytics', function () {
 //Route::post('upload', [App\Http\Controllers\ExcelController::class, 'import'])->name('upload');
 //Route::post('/upload', 'UploadController@upload')->name('upload');
 
+Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+
 Route::get('schools/create', [App\Http\Controllers\SchoolController::class, 'create'])->name('schools.create');
 //Route::post('/schools', 'SchoolController@store')->name('Schools.store');
 Route::post('/schools', [App\Http\Controllers\SchoolController::class, 'store'])->name('Schools.store');

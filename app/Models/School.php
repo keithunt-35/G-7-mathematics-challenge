@@ -7,7 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class School extends Model
 {
-    protected $fillable = ['name', 'district', 'registration_number', 'email', 'representativeName', 'schoolId'];
-
+    protected $fillable = [
+        'name', 
+        'district', 
+        'registrationNo', 
+        'email', 
+        'representativeName', 
+        'schoolId'
+    ];
+    public function participants()
+    {
+        return $this->hasMany('App\Models\Participant');
+    }
     
 }
