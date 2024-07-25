@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Representative extends Model
 {
-    protected $fillable = ['email', 'representativeName', 'representativeid',];
+    protected $fillable = [
+        'email', 
+        'representativeName', 
+        'representativeid'
+    ];
 
     public function school(): BelongsTo
     {
