@@ -14,13 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('schools', function (Blueprint $table) {            
-            $table->timestamps();
-            $table->string('district');
-            $table->string('email');
-            $table->string('name');
-            $table->string('representativeName');
-            $table->string('registrationNo');
-            $table->integer('schoolId')->primary();
+            $table->increments('schoolId'); // Primary Key
+            $table->string('district', 20)->nullable(false); // Not Null
+            $table->string('email', 30)->nullable(false); // Not Null
+            $table->string('name', 25)->nullable(false); // Not Null
+            $table->string('representativeName', 25)->nullable(false); // Not Null
+            $table->string('registrationNo', 20)->unique(); // Alternate Key
+
+           
         });
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-        //protected $table = '_questions';
+    //protected $table = '_questions';
     protected $fillable = [
         'id', 
         'questionText', 
@@ -15,16 +15,15 @@ class Question extends Model
         'challengeId'
     ];
 
-    public function challenge()
-{
-    return $this->belongsTo(Challenge::class);
-}
+        public function challenge()
+    {
+        return $this->belongsTo(Challenge::class);
+    }
 
-public function answers()
-{
-    return $this->hasMany(Answer::class, 'questionId');
-}
-
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'questionId');
+    }
 
 
 }

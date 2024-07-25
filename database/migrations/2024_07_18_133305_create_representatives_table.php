@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('representatives', function (Blueprint $table) {            
-            $table->timestamps();
+            
             $table->string('representativeName');
             $table->integer('representativeid')->primary();
             $table->string('email');
