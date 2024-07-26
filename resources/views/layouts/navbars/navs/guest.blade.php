@@ -10,13 +10,14 @@
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navbar">
             <ul class="navbar-nav">
+                <!-- Don't need this on our welcome page
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link">
                         <i class="nc-icon nc-chart-pie-35"></i> {{ __('Dashboard') }}
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link">
+                    <a href="{{ route('analytics) }}" class="nav-link">
                         <i class="nc-icon nc-chart-pie-35"></i> {{ __('Analytics') }}
                     </a>
                 </li>
