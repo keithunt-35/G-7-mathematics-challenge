@@ -1,88 +1,72 @@
 <?php
 
-// app/Http/Controllers/AnalyticsController.php
-
 namespace App\Http\Controllers;
 
-use App\Models\QuizAttempt;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator; // Import Validator facade
+use App\Models\Question;
+use App\Models\School;
+use App\Models\Participant;
+use App\Models\Attempt;
 
 class AnalyticsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $totalQuizzes = Quiz::count();
-        $totalQuizAttempts = QuizAttempt::count();
-        $averageScore = QuizAttempt::avg('score');
-
-        // Additional analytics logic...
-
-        return view('analytics.index', [
-            'totalQuizzes' => $totalQuizzes,
-            'totalQuizAttempts' => $totalQuizAttempts,
-            'averageScore' => $averageScore,
+        // Validate the challengeId parameter
+        $validator = Validator::make($request->all(), [
+            'challengeId' => 'required|integer', // Ensure challengeId is present and is an integer
         ]);
+
+        // If validation fails, redirect back with errors
+        if ($validator->fails()) {
+            return redirect('analytics')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        // Extract validated challengeId
+        $challengeId = $request->input('challengeId');
+
+        // Most correctly answered questions
+        $mostCorrectlyAnsweredQuestions = Question::withCount(['answers' => function ($query) {
+            $query->where('isCorrect', true);
+        }])->orderBy('answers_count', 'desc')->get();
+
+        // School rankings by number of participants
+        $schoolRankings = School::withCount('participants')->orderBy('participants_count', 'desc')->get();
+
+        // Performance of schools over the years
+        $schoolPerformance = School::with(['participants.attempts' => function ($query) {
+            $query->selectRaw('school_id, YEAR(created_at) as year, AVG(score) as average_score')
+                  ->groupBy('school_id', 'year');
+        }])->get();
+
+        // List of worst performing schools for a given challenge
+        $worstPerformingSchools = School::with(['participants.attempts' => function ($query) use ($challengeId) { // Pass $challengeId to closure
+            $query->where('challenge_id', $challengeId)
+                  ->orderBy('score', 'asc');
+        }])->get();
+
+        // List of best performing schools for all challenges
+        $bestPerformingSchools = School::with(['participants.attempts' => function ($query) {
+            $query->orderBy('score', 'desc');
+        }])->get();
+
+        // List of participants with incomplete challenges
+        $incompleteChallenges = Participant::whereHas('attempts', function ($query) {
+            $query->whereNull('completed_at'); // Assuming 'completed_at' indicates if the attempt was completed
+        })->get();
+
+        // Return the analytics view with the data
+        return view('analytics.index', compact(
+            'mostCorrectlyAnsweredQuestions', 
+            'schoolRankings', 
+            'schoolPerformance', 
+            'worstPerformingSchools', 
+            'bestPerformingSchools', 
+            'incompleteChallenges',
+            'challengeId' // Pass challengeId to view if needed
+        ));
     }
-
-    public function mostCorrectlyAnsweredQuestions()
-{
-    // Example query to get questions with highest correct answers
-    $questions = Question::select('question_text')
-        ->withCount(['quizAttempts as correct_attempts_count' => function ($query) {
-            $query->whereColumn('questions.id', 'quiz_attempts.question_id')
-                ->where('quiz_attempts.is_correct', true);
-        }])
-        ->orderByDesc('correct_attempts_count')
-        ->limit(10)
-        ->get();
-
-    return view('analytics.most_correctly_answered_questions', ['questions' => $questions]);
 }
-
-public function schoolRankings()
-{
-    // Example query to rank schools by average score of their participants
-    $schoolRankings = School::withAvg('participants.quizAttempts.score')
-        ->orderByDesc('participants_quiz_attempts_avg_score')
-        ->get();
-
-    return view('analytics.school_rankings', ['schoolRankings' => $schoolRankings]);
-}
-
-public function repetitionPercentage($participantId)
-{
-    $repeatedQuestionsCount = QuizAttempt::where('participant_id', $participantId)
-        ->distinct('question_id')
-        ->count();
-
-    $totalQuestionsAttempted = QuizAttempt::where('participant_id', $participantId)
-        ->count();
-
-    if ($totalQuestionsAttempted > 0) {
-        $repetitionPercentage = ($repeatedQuestionsCount / $totalQuestionsAttempted) * 100;
-    } else {
-        $repetitionPercentage = 0;
-    }
-
-    return view('analytics.repetition_percentage', [
-        'participantId' => $participantId,
-        'repetitionPercentage' => $repetitionPercentage,
-    ]);
-}
-
-
-public function worstPerformingSchools($challengeId)
-{
-    $worstPerformingSchools = School::whereHas('participants.quizAttempts', function ($query) use ($challengeId) {
-        $query->where('challenge_id', $challengeId);
-    })
-    ->withAvg('participants.quizAttempts.score')
-    ->orderBy('participants_quiz_attempts_avg_score')
-    ->limit(10)
-    ->get();
-
-    return view('analytics.worst_performing_schools', ['worstPerformingSchools' => $worstPerformingSchools]);
-}
-
-}
-
