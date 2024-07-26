@@ -7,7 +7,7 @@ Tip 2: you can also add an image using data-image tag
     <div class="sidebar-wrapper">
         <div class="logo">
             <a href="http://www.creative-tim.com" class="simple-text">
-                {{ __("Creative Tim") }}
+                {{ __("G-7 Mathematics Challenge") }}
             </a>
         </div>
         <ul class="nav">
@@ -17,7 +17,7 @@ Tip 2: you can also add an image using data-image tag
                     <p>{{ __("Dashboard") }}</p>
                 </a>
             </li>
-           
+           <!-- Don't need this on our side bar
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#laravelExamples" @if($activeButton =='laravel') aria-expanded="true" @endif>
                     <i>
@@ -44,7 +44,7 @@ Tip 2: you can also add an image using data-image tag
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
             <li class="nav-item @if($activePage == 'Challenges') active @endif">
                 <a class="nav-link" href="{{route('challenges.create')}}">
@@ -76,7 +76,10 @@ Tip 2: you can also add an image using data-image tag
                                 <p>{{ __("Analytics") }}</p>
                             </a>
                         </li>
-            <li class="nav-item @if($activePage == 'typography') active @endif">
+<!-- Don't need this on our side bar 
+
+
+         <li class="nav-item @if($activePage == 'typography') active @endif">
                 <a class="nav-link" href="{{route('page.index', 'typography')}}">
                     <i class="nc-icon nc-paper-2"></i>
                     <p>{{ __("Typography") }}</p>
@@ -105,7 +108,7 @@ Tip 2: you can also add an image using data-image tag
                     <i class="nc-icon nc-alien-33"></i>
                     <p>{{ __("Upgrade to PRO") }}</p>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </div>
 </div>
